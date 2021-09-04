@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import com.springboot.web.model.Product;
+import com.springboot.web.model.User;
 import com.dao.ProductRepository;
 
 @Service
@@ -20,6 +21,10 @@ public class ProductService {
 		this.productRepository=productRepository;
 	}
 	
+	public void saveMyProduct(Product product ) {
+		productRepository.save(product);
+	}
+	
 	public List<Product> showAllProducts(){
 		List<Product> products = new ArrayList<Product>();
 		for(Product pro : productRepository.findAll()) {
@@ -27,6 +32,14 @@ public class ProductService {
 		}
 		
 		return products;
+	}
+	
+	public void deleteMyProduct(int id) {
+		productRepository.delete(id);
+	}
+	
+	public Product editProduct(int id) {
+		return productRepository.findOne(id);
 	}
 	
 

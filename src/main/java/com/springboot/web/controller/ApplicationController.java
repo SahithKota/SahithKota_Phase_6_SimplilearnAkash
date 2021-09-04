@@ -36,8 +36,14 @@ public class ApplicationController {
 
 	@RequestMapping("/welcome")
 	public String Welcome(HttpServletRequest request) {
-		request.setAttribute("mode", "MODE_HOME");
-		return "welcomepage";
+		request.setAttribute("mode", "MODE_WELCOME");
+		return "homepage";
+	}
+	
+	@RequestMapping("/contact")
+	public String Contact(HttpServletRequest request) {
+		request.setAttribute("mode", "MODE_CONTACT");
+		return "homepage";
 	}
 
 	@RequestMapping("/register")
@@ -52,6 +58,13 @@ public class ApplicationController {
 		request.setAttribute("mode", "MODE_LOGIN");
 		return "homepage";
 	}
+	
+	@PostMapping("/save-product")
+	public String registerProduct(@ModelAttribute Product product, BindingResult bindingResult, HttpServletRequest request) {
+		productService.saveMyProduct(product);
+		request.setAttribute("mode", "MODE_LOGIN");
+		return "homepage";
+	}
 
 	@GetMapping("/show-users")
 	public String showAllUsers(HttpServletRequest request) {
@@ -61,10 +74,11 @@ public class ApplicationController {
 	}
 	
 	@GetMapping("/buy-product")
-	public String addTodo(@ModelAttribute User user,@RequestParam String name,@RequestParam String comp,@RequestParam int price, HttpServletRequest request) {
+	public String addTodo(@ModelAttribute User user,@RequestParam int id,@RequestParam String name,@RequestParam String comp,@RequestParam int price, HttpServletRequest request) {
 		HttpSession httpSession = request.getSession();
 		String username = (String)httpSession.getAttribute("mainuser");
 		System.out.println("main user in purchase"+username);
+		request.setAttribute("product", productService.editProduct(id));
 		request.setAttribute("mode", "MODE_PURCHASE");
 		String date =java.time.LocalDate.now().toString();
 		purchaseService.addTodo(name,comp,username,date,price);
@@ -86,10 +100,25 @@ public class ApplicationController {
 		return "welcomepage";
 	}
 	
+	@RequestMapping("/delete-product")
+	public String deleteProduct(@RequestParam int id, HttpServletRequest request) {
+		productService.deleteMyProduct(id);
+		request.setAttribute("products", productService.showAllProducts());
+		request.setAttribute("mode", "All_ITEMS");
+		return "welcomepage";
+	}
+	
 	@RequestMapping("/edit-user")
 	public String editUser(@RequestParam int id,HttpServletRequest request) {
 		request.setAttribute("user", userService.editUser(id));
 		request.setAttribute("mode", "MODE_UPDATE");
+		return "welcomepage";
+	}
+	
+	@RequestMapping("/edit-product")
+	public String editProduct(@RequestParam int id,HttpServletRequest request) {
+		request.setAttribute("product", productService.editProduct(id));
+		request.setAttribute("mode", "PRODUCT_UPDATE");
 		return "welcomepage";
 	}
 	

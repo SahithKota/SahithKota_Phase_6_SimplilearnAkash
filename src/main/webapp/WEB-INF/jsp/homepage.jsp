@@ -7,7 +7,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="sat, 01 Dec 2001 00:00:00 GMT">
-<title>Sportify</title>
+<title>Medicare</title>
 <link href="static/css/bootstrap.min.css" rel="stylesheet">
 <link href="static/css/style.css" rel="stylesheet">
 <!--[if lt IE 9]>
@@ -19,12 +19,13 @@
 <body>
 	<div role="navigation">
 		<div class="navbar navbar-inverse">
-			<a href="/welcome" class="navbar-brand">Sportify</a>
+			<a href="/welcome" class="navbar-brand">Medicare</a>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/login">User Login</a></li>
 					<li><a href="/register">User Registration</a></li>
 					<li><a href="/adminlogin">Admin Login</a></li>
+					<li><a href="/contact">Contact</a></li>
 					<li><a href="/login">Logout</a></li>
 				</ul>
 			</div>
@@ -32,6 +33,25 @@
 	</div>
 
 <c:choose>
+<c:when test="${mode=='MODE_WELCOME' }">
+	<div class="container">
+	               <h2>Medicare</h2>
+                   <img src="C:\Users\DELL\MEDICARE.jpg" alt="Trulli" width="500" height="333">
+	</div>
+	</c:when>
+<c:when test="${mode=='MODE_CONTACT' }">
+	<div class="container">
+	                <div class="form-group">
+						<label class="control-label col-md-3">Medicare is a company that supplies medicines and a couple of other healthcare essentials at an affordable price. It was established in 2012 in Delhi, India.</label>
+					</div>
+		            <div class="form-group">
+						<label class="control-label col-md-3">Phone Number: 9991192229</label>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Email: medicareservices@gmail.com</label>
+					</div>
+	</div>
+	</c:when>
 <c:when test="${mode=='MODE_LOGIN'}">
 			<div class="container text-center">
 				<h3>User Login</h3>
@@ -100,15 +120,16 @@
 		</div>
 	</div>
 
-	<div class="container text-centered">
+	<div class="container text-centered">			
+		<form action="/search-product"><input type="text" name="uproduct"><input type="submit" value="Search"></form><br/>
 		<div class="table-responsive">
 					<table class="table table-striped table-bordered">
 						<thead>
 							<tr>
 								<th>Id</th>
-								<th>Company</th>
 								<th>Name</th>
-								<th>Color</th>
+								<th>Brand</th>
+								<th>Quantity</th>
 								<th>Price</th>
 								<th>Buy</th>
 							</tr>
@@ -117,11 +138,11 @@
 							<c:forEach var="product" items="${products}">
 								<tr>
 									<td>${product.id}</td>
+									<td>${product.color}</td>
 									<td>${product.company}</td>
 									<td>${product.name}</td>
-									<td>${product.color}</td>
 									<td>${product.price}</td>
-									<td><a href="/buy-product?name=${product.name}&comp=${product.company}&price=${product.price}"><span
+									<td><a href="/buy-product?id=${product.id }&name=${product.name}&comp=${product.company}&price=${product.price}"><span
 											class="glyphicon glyphicon-shopping-cart"></span></a></td>
 								</tr>
 							</c:forEach>
@@ -178,10 +199,39 @@
 			</div>
 		</c:when>
 		<c:when test="${mode=='MODE_PURCHASE' }">
-			<div class="container" id="homediv">
-				<div class="jumbotron text-center">
-					<h1>Thank you for purchasing</h1>
-				</div>
+			<div class="container text-center">
+				<h3>Product Summary</h3>
+				<hr>
+				<form class="form-horizontal" method="POST" action="save-product">
+					<input type="hidden" name="id" value="${product.id }" />
+					<div class="form-group">
+						<label class="control-label col-md-3">Name</label>:
+						<div class="col-md-7">
+							<label class="form-control"> ${product.color}</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Brand</label>:
+						<div class="col-md-7">
+							<label class="form-control"> ${product.company}</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Quantity</label>:
+						<div class="col-md-7">
+							<label class="form-control"> ${product.name}</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-md-3">Price</label>:
+						<div class="col-md-7">
+							<label class="form-control"> ${product.price}</label>
+						</div>
+					</div>
+					<div class="form-group ">
+						<h1>Thank you for Purchasing</h1>
+					</div>
+				</form>
 			</div>
 
 		</c:when>

@@ -6,7 +6,7 @@
 	<groupId>com.springboot.web</groupId>
 	<artifactId>springboot-firstwebapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>springboot-firstwebapp</name>
 	<description>Demo project for Spring Boot</description>
